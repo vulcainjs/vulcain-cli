@@ -1,0 +1,32 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch",
+			"type": "node",
+			"request": "launch",
+			"preLaunchTask": "compile-ts",
+			"program": "${workspaceRoot}/src/index.ts",
+			"stopOnEntry": false,
+			"args": [],
+			"cwd": "${workspaceRoot}",
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+			],
+			"env": {
+				"USE_MOCK": "2",
+				"NODE_ENV": "development"
+			},
+			"console": "externalTerminal",
+			"sourceMaps": true,
+			"outDir": "${workspaceRoot}/dist",
+			"smartStep": true
+		},
+		{
+			"name": "Attach",
+			"type": "node",
+			"request": "attach",
+			"port": 5858
+		}
+	]
+}

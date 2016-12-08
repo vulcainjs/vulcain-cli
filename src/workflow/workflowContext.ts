@@ -10,17 +10,17 @@ export class WorkflowContext {
         let ns = "";
         if (vulcainInfo.ns && vulcainInfo.name.startsWith(vulcainInfo.ns)) {
             vulcainInfo.name = vulcainInfo.name.substr(vulcainInfo.ns.length + 1);
-            ns = vulcainInfo.name + ".";
+            ns = vulcainInfo.ns + ".";
         }
 
         this.meta = {
             teamName: vulcainInfo.team,
-            env: vulcainInfo.env,
+            env: vulcainInfo.env || "test",
             project: {
-                namespace: vulcainInfo.ns,
+                namespace: vulcainInfo.ns || "vulcain",
                 safeName: vulcainInfo.safeName,
                 name: vulcainInfo.name,
-                fullName: ns + vulcainInfo.name
+                fullName: ns + vulcainInfo.safeName
             },
             hub: vulcainInfo.hub
         };

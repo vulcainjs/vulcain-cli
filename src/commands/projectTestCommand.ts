@@ -45,7 +45,7 @@ export class ProjectTestCommand extends AbstractCommand {
                     name: options.project,
                     template: options.template,
                     description: options.description,
-                    env: options.env,
+                    env: options.env || "test",
                     templateRequired: true,
                     team: options.team,
                     isPackage: options.package,
@@ -88,7 +88,7 @@ export class ProjectTestCommand extends AbstractCommand {
                 ctx = null;
             }
 
-            this.vorpal.log("*** Project " + ctx.meta.project.fullName + " created successfully.");
+            this.vorpal.log("*** Project " + ctx.meta.project.fullName + " created successfully in " + options.folder);
         }
         catch (e) {
             this.vorpal.log("*** " + e);

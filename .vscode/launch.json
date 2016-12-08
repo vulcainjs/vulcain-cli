@@ -8,13 +8,13 @@
 			"preLaunchTask": "compile-ts",
 			"program": "${workspaceRoot}/src/index.ts",
 			"stopOnEntry": false,
-			"args": [],
+			"args": ["init", "my-service"],
 			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 			],
 			"env": {
-				"USE_MOCK": "2",
+				"USE_MOCK": "0",
 				"NODE_ENV": "development"
 			},
 			"console": "externalTerminal",

@@ -80,9 +80,9 @@ export class ProjectInitCommand extends AbstractCommand {
                 catch (e) {
                     this.vorpal.log("*** Error when updating source files - " + e);
                 }
-                templateEngine.execScriptsAsync("clone");
+                templateEngine.execScriptsAsync();
 
-                this.vorpal.log("*** Project " + ctx.meta.project.fullName + " initialized successfully.");
+                this.vorpal.log("*** Project " + ctx.meta.project.fullName + " initialized successfully in " + options.folder);
             }
         }
         catch (e) {

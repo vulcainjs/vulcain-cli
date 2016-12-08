@@ -28,7 +28,7 @@ vorpal
     .delimiter("vulcain > ");
 
 console.log();
-console.log("Vulcain command - Version: 1.1.0");
+console.log("Vulcain command - Version: 1.1.1");
 console.log("================================");
 console.log();
 console.log("Available commands : ");
@@ -47,4 +47,8 @@ else {
 new ConfigCommand(vorpal, profiles, !!useMock);
 console.log();
 
-vorpal.show();
+let ui = vorpal.show();
+if (process.argv.length > 2) {
+    ui.parse(process.argv);
+    process.exit(0);
+}

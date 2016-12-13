@@ -1,13 +1,13 @@
-import { AbstractCommand } from './abstractCommand';
-import { ProfileManager } from '../profileManager';
-import { VulcainInfo } from '../vulcainProxy';
-import { WorkflowContext } from '../workflow/workflowContext';
-import { Engine } from '../util/manifestEngine';
+import { AbstractCommand } from '../abstractCommand';
+import { ProfileManager } from '../../profileManager';
+import { VulcainInfo } from '../../vulcainProxy';
+import { WorkflowContext } from '../../workflow/workflowContext';
+import { Engine } from '../../util/manifestEngine';
 import * as shell from 'shelljs';
 
 export class ProjectTestCommand extends AbstractCommand {
 
-    constructor(vorpal, profiles: ProfileManager, useMock?: boolean) {
+    constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
         let desc = "test    : Create locally a new project from template. (Don't register it in vulcain))";
@@ -23,7 +23,9 @@ export class ProjectTestCommand extends AbstractCommand {
             .option("-t, --template <template>", "Template name used to initialize project", this.templateAutoCompletion.bind(this))
             .option("--folder, -f <folder>", "Project folder", this.fileAutoComplete)
             .action(function (args, cb) {
-                self.exec(this, args, cb);
+                self.exec(this, args, () => {
+                    if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
+                });
             });
     }
 

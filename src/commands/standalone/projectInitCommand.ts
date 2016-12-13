@@ -1,13 +1,13 @@
-import { AbstractCommand } from './abstractCommand';
-import { ProfileManager } from '../profileManager';
-import { VulcainInfo } from '../vulcainProxy';
-import { Engine } from '../util/manifestEngine';
-import { WorkflowContext } from '../workflow/workflowContext';
-import { WorkflowArgument } from '../commands/abstractCommand';
+import { AbstractCommand } from '../abstractCommand';
+import { ProfileManager } from '../../profileManager';
+import { VulcainInfo } from '../../vulcainProxy';
+import { Engine } from '../../util/manifestEngine';
+import { WorkflowContext } from '../../workflow/workflowContext';
+import { WorkflowArgument } from '../../commands/abstractCommand';
 
 export class ProjectInitCommand extends AbstractCommand {
 
-    constructor(vorpal, profiles: ProfileManager, useMock?: boolean) {
+    constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
         let desc = "init    : Initialize a new vulcain project (to use outside vulcain platform)";
@@ -23,7 +23,9 @@ export class ProjectInitCommand extends AbstractCommand {
             })
             .option("--folder, -f <folder>", "Project folder", this.fileAutoComplete)
             .action(function (args, cb) {
-                self.exec(this, args, cb);
+                self.exec(this, args, () => {
+                    if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
+                });
             });
     }
 

@@ -2,7 +2,7 @@ import { AbstractCommand } from './abstractCommand';
 import { ProfileManager } from '../profileManager';
 
 export class ConfigCommand extends AbstractCommand {
-    constructor(vorpal, profiles: ProfileManager, useMock?: boolean) {
+    constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
         let desc = "config  : Initialize default options";
@@ -18,6 +18,9 @@ export class ConfigCommand extends AbstractCommand {
             .option("--team <team>", "Team name", this.teamAutoCompletion.bind(this))
             .action(function (args, cb) {
                 self.exec(args.options);
+                if (self.executeCommandOnline) {
+                    process.exit(0);
+                }
                 cb();
             });
 

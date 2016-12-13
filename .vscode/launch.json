@@ -5,11 +5,12 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"preLaunchTask": "compile-ts",
 			"program": "${workspaceRoot}/src/index.ts",
 			"stopOnEntry": false,
-			"args": ["init", "my-service"],
-			"cwd": "${workspaceRoot}",
+			"preLaunchTask": "compile-ts",
+			"args": [
+			],
+			"cwd": "/Users/alain/dev/zenasoft",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 			],

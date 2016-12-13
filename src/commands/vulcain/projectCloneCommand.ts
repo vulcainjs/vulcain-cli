@@ -1,13 +1,13 @@
-import { AbstractCommand } from './abstractCommand';
-import { ProfileManager } from '../profileManager';
-import { VulcainInfo } from '../vulcainProxy';
-import { Engine } from '../util/manifestEngine';
-import { WorkflowContext } from '../workflow/workflowContext';
+import { AbstractCommand } from '../abstractCommand';
+import { ProfileManager } from '../../profileManager';
+import { VulcainInfo } from '../../vulcainProxy';
+import { Engine } from '../../util/manifestEngine';
+import { WorkflowContext } from '../../workflow/workflowContext';
 import * as URL from 'url';
 
 export class ProjectCloneCommand extends AbstractCommand {
 
-    constructor(vorpal, profiles: ProfileManager, useMock?: boolean) {
+    constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
         let desc = "clone   : Clone an existing vulcain project";
@@ -24,7 +24,9 @@ export class ProjectCloneCommand extends AbstractCommand {
             .option("--folder, -f <folder>", "Project folder", this.fileAutoComplete)
             .option("--team <team>", "Team name", this.teamAutoCompletion.bind(this))
             .action(function (args, cb) {
-                self.exec(this, args, cb);
+                self.exec(this, args, () => {
+                    if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
+                });
             });
     }
 

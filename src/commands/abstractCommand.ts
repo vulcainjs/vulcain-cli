@@ -98,7 +98,8 @@ export abstract class AbstractCommand {
     
     protected prepareFolder(options: WorkflowArgument, test = false) {
         if (!options.folder) {
-            let env = options.defaultFolder || process.env["VULCAIN_PROJECT"];
+            let env = options.defaultFolder || process.env["VULCAIN_FOLDER"]
+                || process.env["VULCAIN_PROJECT"]; // TODO remove
             if (!env) {
                 options.folder = process.cwd();
             }

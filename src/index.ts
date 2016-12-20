@@ -34,7 +34,7 @@ vorpal
     .delimiter("vulcain > ");
 
 console.log();
-console.log("Vulcain command - Version: 1.1.3");
+console.log("Vulcain command - Version: 1.1.4");
 console.log("================================");
 console.log();
 console.log("Available commands : ");
@@ -51,9 +51,9 @@ if (profiles.currentConfig().server && useMock < 2) {
 else {
     new ProjectInitCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectRunCommand(vorpal, profiles, !!useMock, executeCommandOnline);
-    new ProjectGenerateCommand(vorpal, profiles, !!useMock, executeCommandOnline);
 }
 
+new ProjectGenerateCommand(vorpal, profiles, !!useMock, executeCommandOnline);
 new ConfigCommand(vorpal, profiles, !!useMock, executeCommandOnline);
 console.log();
 

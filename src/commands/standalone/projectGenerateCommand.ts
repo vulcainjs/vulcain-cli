@@ -4,6 +4,7 @@ import * as shell from 'shelljs';
 import * as fs from 'fs';
 import * as ejs from 'ejs';
 import * as Path from 'path';
+import * as Url from 'url';
 
 export class ProjectGenerateCommand extends AbstractCommand {
 
@@ -19,7 +20,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
         vorpal.command('generate', desc)
             .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
             .option("--template <template>", "Template to use")
-            .option("--uri <uri>", "Service discovery address or called url for http command")
+            .option("--uri <uri>", "Service discovery address (or url for http command)")
             .action(function (args, cb) {
                 self.exec(this, args, () => {
                     if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
@@ -28,17 +29,23 @@ export class ProjectGenerateCommand extends AbstractCommand {
     }
 
     protected checkArguments(args, errors) {
-        if (!args.options.template) {
-            errors.push("You must provide a template with --template.");
-        }
         if (!args.options.uri) {
             errors.push("You must provide an uri with --uri.");
         }
+        else {
+            let url = Url.parse(args.options.uri);
+            if(url.path === "/")
+                url.path = "/api/_servicedescription";
+            args.options.uri = Url.format(url);
+        }
+        if(!args.options.template)
+            args.options.template = "microServiceProxy";
     }
 
     private async exec(vorpal, args, done) {
 
         this.vorpal.log();
+
         this.vorpal.log("Generating code from template " + args.options.template);
 
         let currentFolder;

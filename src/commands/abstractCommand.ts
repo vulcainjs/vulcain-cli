@@ -66,7 +66,7 @@ export abstract class AbstractCommand {
         if (!args.token && config.token) {
             args.token = config.token;
         }
-        else {
+        if (!args.token) {
             errors.push("Token is not defined.");
         }
         if (!args.team) {

@@ -1,5 +1,4 @@
-import { ProfileManager } from './profileManager';
-import { IConfig } from '../dist/profileManager';
+import { ProfileManager, IConfig } from './profileManager';
 const rest = require('unirest');
 
 export interface VulcainInfo {

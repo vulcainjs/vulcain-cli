@@ -20,7 +20,7 @@ export class ProjectRunCommand extends AbstractCommand {
             })
             .option("--image <image>", "Docker image")
             .option("--network <network>", "Docker overlay network")            
-            .option("--version <version>", "Microservice version (default 1)")            
+            .option("--version <version>", "Microservice version (default 1.0)")            
             .action(function (args, cb) {
                 self.exec(this, args, () => {
                     if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
@@ -29,18 +29,19 @@ export class ProjectRunCommand extends AbstractCommand {
     }
 
     protected checkArguments(args, errors) {
-        if (!args.options.image) {
-            errors.push("You must provide a docker image with --image.");
-        }
         if (!args.options.network) {
             args.options.network = "net-vulcain";
         }        
         if (!args.options.version) {
-            args.options.version = "1";
+            args.options.version = "1.0";
         }
         if (!args.name) {
             errors.push("You must provide a service name. run --image <image> <service-name>");            
         }
+        if (!args.options.image) {
+            errors.push("You must provide a docker image with --image.");
+        }
+        
     }
 
     private createServiceName(serviceName: string, version: string) {
@@ -67,7 +68,7 @@ export class ProjectRunCommand extends AbstractCommand {
             shell.exec("docker network create -d overlay " + args.options.network, {silent:true});
             
             let cmd = `docker service create -p 8080 --name ${this.createServiceName(args.name, args.options.version)} --restart-condition on-failure --network ${args.options.network} \
-            -e VULCAIN_ENV=test -e VULCAIN_SERVICE_NAME=${args.name} -e VULCAIN_SERVICE_VERSION=${args.options.version} \
+            -e VULCAIN_ENV=dev -e VULCAIN_SERVICE_NAME=${args.name} -e VULCAIN_SERVICE_VERSION=${args.options.version} \
             -e VULCAIN_ENV_MODE=local ${args.options.image}`;
             let serviceId = (<any>shell.exec(cmd, { silent: true })).stdout;
             let inspect = (<any>shell.exec(`docker service inspect ${serviceId}`, { silent: true })).stdout;

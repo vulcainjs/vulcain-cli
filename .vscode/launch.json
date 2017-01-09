@@ -9,8 +9,9 @@
 			"stopOnEntry": false,
 			"preLaunchTask": "compile-ts",
 			"args": [
+				"generate", "--template", "angularServiceProxy", "--uri", "http://localhost:8080"
 			],
-			"cwd": "/Users/alain/dev/zenasoft",
+			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 			],

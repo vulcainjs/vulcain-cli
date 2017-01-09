@@ -34,12 +34,14 @@ export class ProjectGenerateCommand extends AbstractCommand {
         }
         else {
             let url = Url.parse(args.options.uri);
-            if(url.path === "/")
-                url.path = "/api/_servicedescription";
+            if(url.pathname === "/") {
+                url.pathname = "/api/_servicedescription";
+            }
             args.options.uri = Url.format(url);
         }
-        if(!args.options.template)
+        if(!args.options.template) {
             args.options.template = "microServiceProxy";
+        }
     }
 
     private async exec(vorpal, args, done) {

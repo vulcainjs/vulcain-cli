@@ -3,11 +3,11 @@
     "command": "gulp",
     "isShellCommand": true,
     "args": [
-        "--no-color"
+     
     ],
     "tasks": [
         {
-        "taskName": "compile-ts",
+        "taskName": "default",
         "isBuildCommand": true,
         "problemMatcher":"$tsc",
         "isWatching": false 

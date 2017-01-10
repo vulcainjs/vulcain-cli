@@ -36,7 +36,7 @@ gulp.task("compile-ts", function ()
                 .pipe(gulp.dest('dist')),
             tsResult.js
                 //       .pipe(concat('index.js'))
-                .pipe(sourcemaps.write('.', {includeContent:false, sourceRoot: rootDir + "/src"}))
+                .pipe(sourcemaps.write('.', {includeContent:false, sourceRoot: "../src"}))
                 .pipe(gulp.dest('dist'))
         ]
     );

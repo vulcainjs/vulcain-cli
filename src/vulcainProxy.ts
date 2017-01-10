@@ -39,19 +39,8 @@ export class VulcainProxy {
             .timeout(5000)
             .send({ action: "registerService", schema: "Service", params: requestData });
 
-        let response: any = await this.sendRequest(request);
-        if (response.ok) {
-            var info = response.body;
-            if (info.status === "Error") {
-                throw new Error(info.error.message);
-            }
-        }
-
-        if (response.error) {
-            throw new Error(response.error.message);
-        }
-
-        return <VulcainInfo>info.value;
+        let body: any = await this.sendRequest(request);
+        return <VulcainInfo>body.value;
     }
 
     public async registerServiceAsync(dir: string, requestData: VulcainInfo): Promise<boolean> {
@@ -64,18 +53,9 @@ export class VulcainProxy {
             .type("json")
             .send({ params: requestData });
 
-        let response: any = await this.sendRequest(request);
-        if (response.ok) {
-            var info = response.body;
-            if (info.status === "Error") {
-                throw new Error(info.error.message);
-            }
+            await this.sendRequest(request);
             this.vorpal.log("*** Project registered with success.");
             return true;
-        }
-        if (!response.ok || response.error) {
-            throw new Error(response.error && response.error.message);
-        }
     }
 
     public getServiceNames(input: string, callback) {
@@ -134,8 +114,22 @@ export class VulcainProxy {
     }
 
     private sendRequest(request) {
-        return new Promise((resolve) => {
-            request.end(resolve);
+        return new Promise((resolve, reject) => {
+            request.end((response) => {
+                let body;
+                try { body = response.body; } catch (e) { }
+                if (!response.ok) {
+                    if (body && body.error) {
+                        reject(new Error(body.error.message));
+                    }
+                    else {
+                        reject( new Error((response.error && response.error.message) || response.status));
+                    }
+                }
+                else  {
+                    resolve(body);
+                }
+            });
         });
     }
 }

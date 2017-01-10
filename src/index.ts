@@ -34,7 +34,7 @@ vorpal
     .delimiter("vulcain > ");
 
 console.log();
-console.log("Vulcain command - Version: 1.1.6");
+console.log("Vulcain command - Version: " + pkg.version);
 console.log("================================");
 console.log();
 console.log("Available commands : ");

@@ -10,7 +10,7 @@
 			"preLaunchTask": "compile-ts",
 			"args": [
 			],
-			"cwd": "/Users/alain/dev/zenasoft",
+			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 			],
@@ -18,9 +18,9 @@
 				"USE_MOCK": "0",
 				"NODE_ENV": "development"
 			},
-			"console": "externalTerminal",
+			"console": "internalConsole",
 			"sourceMaps": true,
-			"outDir": "${workspaceRoot}/dist",
+			"outFiles": ["${workspaceRoot}/dist/**/*.js"],
 			"smartStep": true
 		},
 		{

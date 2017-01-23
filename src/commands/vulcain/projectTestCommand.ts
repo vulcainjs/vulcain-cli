@@ -47,7 +47,7 @@ export class ProjectTestCommand extends AbstractCommand {
                     name: options.project,
                     template: options.template,
                     description: options.description,
-                    env: options.env || "test",
+                    env: options.env,
                     templateRequired: true,
                     team: options.team,
                     isPackage: options.package,

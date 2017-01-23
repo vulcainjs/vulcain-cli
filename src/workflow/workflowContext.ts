@@ -22,7 +22,7 @@ export class WorkflowContext {
                 name: vulcainInfo.name,
                 fullName: ns + vulcainInfo.safeName
             },
-            hub: vulcainInfo.hub
+            hub: args.server
         };
 
         args.folder = Path.join(args.folder, this.meta.project.name);

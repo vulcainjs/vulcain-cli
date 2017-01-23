@@ -18,7 +18,7 @@
 				"USE_MOCK": "0",
 				"NODE_ENV": "development"
 			},
-			"console": "internalConsole",
+			"console": "externalTerminal",
 			"sourceMaps": true,
 			"outFiles": ["${workspaceRoot}/dist/**/*.js"],
 			"smartStep": true

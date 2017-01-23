@@ -7,10 +7,9 @@ export class WorkflowContext {
     public meta;
 
     constructor(protected vorpal, public args: WorkflowArgument, vulcainInfo: VulcainInfo) {
-        let ns = "";
+        let ns = vulcainInfo.ns + ".";
         if (vulcainInfo.ns && vulcainInfo.name.startsWith(vulcainInfo.ns)) {
             vulcainInfo.name = vulcainInfo.name.substr(vulcainInfo.ns.length + 1);
-            ns = vulcainInfo.ns + ".";
         }
 
         this.meta = {
@@ -20,7 +19,7 @@ export class WorkflowContext {
                 namespace: vulcainInfo.ns || "vulcain",
                 safeName: vulcainInfo.safeName,
                 name: vulcainInfo.name,
-                fullName: ns + vulcainInfo.safeName
+                fullName: ns + vulcainInfo.name
             },
             hub: args.server
         };

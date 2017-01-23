@@ -32,7 +32,7 @@ export class VulcainProxy {
 
         this.vorpal.log("*** Getting project informations from vulcain at " + options.server + "...");
 
-        var request = rest.post(options.server + "/api")
+        var request = rest.post(options.server + "/api/")
             .header('Accept', 'application/json')
             .header('Authorization', "ApiKey " + options.token)
             .type("json")

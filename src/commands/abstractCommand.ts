@@ -13,9 +13,11 @@ export interface WorkflowArgument extends IConfig {
 
 export abstract class AbstractCommand {
     protected vulcain: VulcainProxy;
+    private initialFolder: string;
 
     constructor(protected vorpal, protected profiles: ProfileManager, protected useMock: boolean) {
         this.vulcain = useMock ? new VulcainProxyMock(vorpal, profiles) : new VulcainProxy(vorpal, profiles);
+        this.initialFolder = shell.pwd();
     }
 
     protected fileAutoComplete() {
@@ -44,6 +46,9 @@ export abstract class AbstractCommand {
     }
 
     protected mergeOptionsWithCurrentConfig(commandOptions): WorkflowArgument {
+        // Reset folder
+        shell.cd(this.initialFolder);
+        
         let errors = [];
         let config = this.profiles.currentConfig();
 

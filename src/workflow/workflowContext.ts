@@ -21,7 +21,8 @@ export class WorkflowContext {
                 name: vulcainInfo.name,
                 fullName: ns + vulcainInfo.name
             },
-            hub: args.server
+            configToken: vulcainInfo.configToken,
+            configServer: vulcainInfo.configServer
         };
 
         args.folder = Path.join(args.folder, this.meta.project.name);

@@ -11,6 +11,8 @@ export interface VulcainInfo {
     projectUrl?: string;
     branch?: string;
     safeName?: string;
+    configToken?: string;
+    configServer?: string;
     templateRequired: boolean;
     isPackage: boolean;
     jobUrl?: string;

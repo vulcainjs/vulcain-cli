@@ -65,7 +65,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
             // Cloning template
             currentFolder = shell.pwd().toString();
             shell.cd("~/.vulcain");
-            this.vorpal.log("Cloning template from " + this.TEMPLATES_URL);
+            this.vorpal.log("Cloning templates from " + this.TEMPLATES_URL);
             if ((<any>shell.exec(`git clone --depth 1 ${this.TEMPLATES_URL} templates`, { silent: true })).code > 0) {
                 shell.cd("templates");
                 shell.exec("git pull origin", { silent: true });
@@ -81,8 +81,10 @@ export class ProjectGenerateCommand extends AbstractCommand {
             }
         }
         catch (e) {
-            currentFolder && shell.cd(currentFolder);
             this.vorpal.log("*** " + e);
+        }
+        finally {
+            currentFolder && shell.cd(currentFolder);
         }
         done();
     }

@@ -70,6 +70,12 @@ export class ProjectCloneCommand extends AbstractCommand {
 
                     // Get info for cloning project
                     let info = await this.vulcain.getProjectInformationsAsync(requestData);
+                    if (!info.projectUrl) {
+                        this.vorpal.log("*** Project has nothing to clone (Scm is not defined?).");
+                        done();
+                        return;
+                    }
+                    
                     // Create target folder
                     this.prepareFolder(options);
 

@@ -33,6 +33,9 @@ export class ProjectGenerateCommand extends AbstractCommand {
             errors.push("You must provide an uri with --uri.");
         }
         else {
+            if (!args.options.uri.startsWith("http")) {
+                args.options.uri = "http://" + args.options.uri;
+            }
             let url = Url.parse(args.options.uri);
             if(url.pathname === "/") {
                 url.pathname = "/api/_servicedescription";

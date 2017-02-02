@@ -70,7 +70,6 @@ export class ProjectCreateCommand extends AbstractCommand {
             try {
 
                 shell.cd(options.folder);
-                shell.rm("-rf", ".git");
 
                 this.vorpal.log("*** Processing Manifest - Updating source files...");
                 try {
@@ -88,16 +87,19 @@ export class ProjectCreateCommand extends AbstractCommand {
                     this.vorpal.log("*** Error when running scripts : " + err);
                 }
 
+                shell.rm("-rf", ".git");                
                 if (shell.exec('git init').code !== 0) {
                     throw new Error("Can not initialized a new git repository.");
                 }
-                if (shell.exec('git remote add origin ' + info.projectUrl).code !== 0) {
-                    throw new Error("Can not initialized a new git repository.");
+                if (info.projectUrl) {
+                    if (shell.exec('git remote add origin ' + info.projectUrl).code !== 0) {
+                        throw new Error("Can not initialized a new git repository.");
+                    }
+                    if (shell.exec('git checkout -b ' + info.branch).code !== 0) {
+                        throw new Error("Can not initialized a new git repository.");
+                    }
                 }
-                if (shell.exec('git checkout -b ' + info.branch).code !== 0) {
-                    throw new Error("Can not initialized a new git repository.");
-                }
-
+                
                 await this.vulcain.registerServiceAsync(options.folder, info);
                 this.vorpal.log("*** Project " + ctx.meta.project.fullName + " created successfully in " + options.folder);
                 templateEngine.displayMessage("end");

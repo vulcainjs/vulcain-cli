@@ -22,6 +22,7 @@ import { ProfileManager } from './profileManager';
 import { ProjectInitCommand } from './commands/standalone/projectInitCommand';
 import { ProjectRunCommand } from './commands/standalone/projectRunCommand';
 import { ProjectGenerateCommand } from './commands/standalone/projectGenerateCommand';
+import { ProjectPublishCommand } from './commands/standalone/projectPublishCommand';
 
 const vorpal = require('vorpal')();
 const updateNotifier = require('update-notifier');
@@ -47,6 +48,7 @@ if (profiles.currentConfig().server && useMock < 2) {
     new ProjectCloneCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectAddCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectTestCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+    new ProjectPublishCommand(vorpal, profiles, !!useMock, executeCommandOnline);
 }
 else {
     new ProjectInitCommand(vorpal, profiles, !!useMock, executeCommandOnline);

@@ -10,7 +10,7 @@
 			"preLaunchTask": "default",
 			"args": [
 			],
-			"cwd": "${workspaceRoot}",
+			"cwd": "/Users/alain/dev/sovinty/vulcain-demo/service1",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 			],

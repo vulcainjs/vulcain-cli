@@ -27,7 +27,7 @@ export class ProjectPublishCommand extends AbstractCommand {
     private exec(vorpal, args, done) {
 
         this.vorpal.log();
-        this.vorpal.log("Publishing microservice " + args.name);
+        this.vorpal.log("Publishing microservice " + args.version);
 
         let profile = this.profiles.currentConfig();
         if (profile.profile !== "demo" || profile.token !== "ab690d50-e85d-11e6-b767-8f41c48a4483") {

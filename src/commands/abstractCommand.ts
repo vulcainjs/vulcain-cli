@@ -117,16 +117,15 @@ export abstract class AbstractCommand {
                     options.folder = Path.join(env, options.team);
                 }
             }
+            try {
+                shell.mkdir("-p", options.folder);
+            }
+            catch (err) {
+                throw new Error("*** Cannot create team folder : " + err);
+            }
         }
         else if (options.folder === ".") {
             options.folder = process.cwd();
-        }
-
-        try {
-            shell.mkdir("-p", options.folder);
-        }
-        catch (err) {
-            throw new Error("*** Cannot create target folder : " + err);
         }
 
         return options;
@@ -147,7 +146,7 @@ export abstract class AbstractCommand {
             throw new Error("destination path " + folder + " already exists");
         }
         
-        this.vorpal.log("*** Cloning repository into " + folder + "...");
+        //this.vorpal.log("*** Cloning repository into " + folder + "...");
         //   copy.copy(folder);
             
         if (shell.exec(`git clone ${extra} ${url} ${folder}`).code !== 0) {

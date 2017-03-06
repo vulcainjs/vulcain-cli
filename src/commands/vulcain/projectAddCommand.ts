@@ -60,7 +60,7 @@ export class ProjectAddCommand extends AbstractCommand {
             let info = await this.vulcain.getProjectInformationsAsync(requestData);
             let ctx = new WorkflowContext(this.vorpal, options, info);
 
-            await this.vulcain.registerServiceAsync(options.folder, info);
+            await this.vulcain.registerServiceAsync(info);
             this.vorpal.log("*** Project " + ctx.meta.project.fullName + " added successfully.");
         }
         catch (e) {

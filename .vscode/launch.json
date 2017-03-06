@@ -8,19 +8,19 @@
 			"program": "${workspaceRoot}/src/index.ts",
 			"stopOnEntry": false,
 			"preLaunchTask": "default",
-			"args": [
-			],
-			"cwd": "/Users/alain/dev/sovinty/vulcain-demo/service1",
+			"args": [],
+			"cwd": "/Users/alain/dev/vulcain-demo/service-facade",
 			"runtimeExecutable": null,
-			"runtimeArgs": [
-			],
+			"runtimeArgs": [],
 			"env": {
 				"USE_MOCK": "0",
 				"NODE_ENV": "development"
 			},
 			"console": "externalTerminal",
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/dist/**/*.js"],
+			"outFiles": [
+				"${workspaceRoot}/dist/**/*.js"
+			],
 			"smartStep": true
 		},
 		{

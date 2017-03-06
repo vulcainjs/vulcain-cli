@@ -100,7 +100,7 @@ export class ProjectCreateCommand extends AbstractCommand {
                     }
                 }
                 
-                await this.vulcain.registerServiceAsync(options.folder, info);
+                await this.vulcain.registerServiceAsync(info);
                 this.vorpal.log("*** Project " + ctx.meta.project.fullName + " created successfully in " + options.folder);
                 templateEngine.displayMessage("end");
             }

@@ -13,14 +13,15 @@ export class ProjectGenerateCommand extends AbstractCommand {
     constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
-        let desc = "generate: Generate a microservice proxy";
+        let desc = "generate: Generate code from template";
         console.log("  - " + desc);
 
         let self = this;
         vorpal.command('generate', desc)
             .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
-            .option("--template <template>", "Template to use")
-            .option("--uri <uri>", "Service discovery address (or url for http command)")
+            .option("--template <template>", "Template to use (default=microServiceProxy)")
+            .option("--folder <folder>", "Generation folder (default=current folder")
+            .option("--address <address>", "Service discovery address (or url for http command)")
             .action(function (args, cb) {
                 self.exec(this, args, () => {
                     if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
@@ -29,20 +30,20 @@ export class ProjectGenerateCommand extends AbstractCommand {
     }
 
     protected checkArguments(args, errors) {
-        if (!args.options.uri) {
-            errors.push("You must provide an uri with --uri.");
+        if (!args.options.address) {
+            errors.push("You must provide an address with --address.");
         }
         else {
-            if (!args.options.uri.startsWith("http")) {
-                args.options.uri = "http://" + args.options.uri;
+            if (!args.options.address.startsWith("http")) {
+                args.options.address = "http://" + args.options.address;
             }
-            let url = Url.parse(args.options.uri);
-            if(url.pathname === "/") {
+            let url = Url.parse(args.options.address);
+            if (url.pathname === "/") {
                 url.pathname = "/api/_servicedescription";
             }
-            args.options.uri = Url.format(url);
+            args.options.address = Url.format(url);
         }
-        if(!args.options.template) {
+        if (!args.options.template) {
             args.options.template = "microServiceProxy";
         }
     }
@@ -78,7 +79,8 @@ export class ProjectGenerateCommand extends AbstractCommand {
             let templateFolder = shell.pwd().toString() + "/templates/" + args.options.template;
 
             if (shell.test("-d", templateFolder)) {
-                await this.generateCode(currentFolder, templateFolder, args.options.uri);
+                const folder = args.options.folder ? Path.normalize(Path.join(currentFolder, args.options.folder)) : currentFolder;
+                await this.generateCode(folder, templateFolder, args.options.address);
             } else {
                 this.vorpal.log("Unknow template " + args.options.template);
             }

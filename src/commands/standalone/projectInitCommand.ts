@@ -10,7 +10,7 @@ export class ProjectInitCommand extends AbstractCommand {
     constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
-        let desc = "init    : Initialize a new vulcain project (to use outside vulcain platform)";
+        let desc = "init    : Initialize a new vulcain project (standalone mode)";
         console.log("  - " + desc);
 
         let self = this;
@@ -38,7 +38,7 @@ export class ProjectInitCommand extends AbstractCommand {
             description: "",
             template: "https://github.com/vulcainjs/vulcain-template-microservice.git",
             package: false,
-            folder: null,
+            folder: args.folder || '.',
             profile: "",
             team: "vulcain"
         };

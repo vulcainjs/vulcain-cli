@@ -45,7 +45,7 @@ export class VulcainProxy {
         return <VulcainInfo>body.value;
     }
 
-    public async registerServiceAsync(dir: string, requestData: VulcainInfo): Promise<boolean> {
+    public async registerServiceAsync(requestData: VulcainInfo): Promise<boolean> {
         var options = this.currentConfig;
 
         this.vorpal.log("*** Registering project in vulcain...");
@@ -138,7 +138,7 @@ export class VulcainProxy {
 
 export class VulcainProxyMock extends VulcainProxy {
 
-    public async registerServiceAsync(dir: string, requestData: VulcainInfo): Promise<boolean> {
+    public async registerServiceAsync(requestData: VulcainInfo): Promise<boolean> {
 
         this.vorpal.log("*** Registering project in vulcain...");
         return true;

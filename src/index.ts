@@ -43,15 +43,22 @@ console.log("Available commands : ");
 updateNotifier({ pkg }).notify({defer:false});
 
 var profiles = new ProfileManager(vorpal);
+
+if (profiles.currentConfig().server && useMock < 2) {
     new ProjectCreateCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectCloneCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectAddCommand(vorpal, profiles, !!useMock, executeCommandOnline);
     new ProjectTestCommand(vorpal, profiles, !!useMock, executeCommandOnline);
-    new ProjectPublishCommand(vorpal, profiles, !!useMock, executeCommandOnline);
-new ProjectGenerateCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+}
+else {
     new ProjectInitCommand(vorpal, profiles, !!useMock, executeCommandOnline);
-    new ProjectRunCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+    new ProjectPublishCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+}
+
+new ProjectRunCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+new ProjectGenerateCommand(vorpal, profiles, !!useMock, executeCommandOnline);
 new ConfigCommand(vorpal, profiles, !!useMock, executeCommandOnline);
+
 console.log();
 
 let ui = vorpal.show();

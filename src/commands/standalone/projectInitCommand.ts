@@ -10,11 +10,11 @@ export class ProjectInitCommand extends AbstractCommand {
     constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
-        let desc = "init    : Initialize a new vulcain project (standalone mode)";
+        let desc = "new     : Initialize a new vulcain project";
         console.log("  - " + desc);
 
         let self = this;
-        vorpal.command('init <name>', desc)
+        vorpal.command('new <name>', desc)
             .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
             .validate(args => {
                 if (!/^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$/.test(args.name)) {

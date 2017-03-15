@@ -9,11 +9,11 @@ export class ProjectCreateCommand extends AbstractCommand {
     constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
-        let desc = "create  : Create a new project from template.";
+        let desc = "new     : Create a new project from template.";
         console.log("  - " + desc);
 
         let self = this;
-        vorpal.command('create <name>', desc)
+        vorpal.command('new <name>', desc)
             .validate(args => {
                 if (!/^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$/.test(args.name)) {
                     return "Invalid character for project name. Use only lowercase, number, '.' or '-'";

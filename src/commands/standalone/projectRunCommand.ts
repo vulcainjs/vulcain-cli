@@ -7,7 +7,7 @@ export class ProjectRunCommand extends AbstractCommand {
     constructor(vorpal, profiles: ProfileManager, useMock: boolean, private executeCommandOnline: boolean) {
         super(vorpal, profiles, useMock);
 
-        let desc = "run     : Run a vulcain microservice from an image (standalone mode)";
+        let desc = "run     : Run a vulcain microservice from an image";
         console.log("  - " + desc);
 
         let self = this;

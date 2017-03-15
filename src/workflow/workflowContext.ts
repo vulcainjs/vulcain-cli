@@ -1,7 +1,7 @@
 import { VulcainInfo } from '../vulcainProxy';
 import * as Path from 'path';
 import { WorkflowArgument } from '../commands/abstractCommand';
-var copy = require('copy-paste');
+const copy = require('copy-paste');
 
 export class WorkflowContext {
     public meta;
@@ -24,7 +24,7 @@ export class WorkflowContext {
             configServer: vulcainInfo.configServer
         };
 
-        args.folder = Path.join(args.folder || '.', this.meta.project.name);
+        args.folder = Path.resolve( Path.join(args.folder || '.', this.meta.project.name));
         copy.copy(args.folder);
     }
 }

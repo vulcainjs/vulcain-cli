@@ -22,6 +22,7 @@ export class ProjectInitCommand extends AbstractCommand {
                 }
             })
             .option("--folder, -f <folder>", "Project folder", this.fileAutoComplete)
+            .option("--template, -t <template>", "Github template address")
             .action(function (args, cb) {
                 self.exec(this, args, () => {
                     if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
@@ -36,7 +37,7 @@ export class ProjectInitCommand extends AbstractCommand {
         let options: WorkflowArgument = {
             project: args.name,
             description: "",
-            template: "https://github.com/vulcainjs/vulcain-template-microservice.git",
+            template: args.options.template || "https://github.com/vulcainjs/vulcain-template-microservice.git",
             package: false,
             folder: args.options.folder || '.',
             profile: "",

@@ -13,7 +13,7 @@
 			"runtimeExecutable": null,
 			"runtimeArgs": [],
 			"env": {
-				"USE_MOCK": "2",
+				"USE_MOCK": "0",
 				"NODE_ENV": "development"
 			},
 			"console": "externalTerminal",

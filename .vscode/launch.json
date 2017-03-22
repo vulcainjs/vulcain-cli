@@ -9,7 +9,7 @@
 			"stopOnEntry": false,
 			"preLaunchTask": "default",
 			"args": [],
-			"cwd": "/Users/alain/dev/vulcain-demo/service-facade",
+			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [],
 			"env": {

@@ -38,7 +38,7 @@ export class ProjectInitCommand extends AbstractCommand {
             description: "",
             template: "https://github.com/vulcainjs/vulcain-template-microservice.git",
             package: false,
-            folder: args.folder || '.',
+            folder: args.options.folder || '.',
             profile: "",
             team: "vulcain"
         };

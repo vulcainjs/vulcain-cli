@@ -20,6 +20,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
         vorpal.command('generate', desc)
             .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
             .option("--template <template>", "Template to use (default=microServiceProxy)")
+            .option("--template-source <templateSource>", "Force a new git repository containing templates")            
             .option("--folder <folder>", "Generation folder (default=current folder")
             .option("--address <address>", "Service discovery address (or url for http command)")
             .action(function (args, cb) {
@@ -69,8 +70,10 @@ export class ProjectGenerateCommand extends AbstractCommand {
             // Cloning template
             currentFolder = shell.pwd().toString();
             shell.cd("~/.vulcain");
-            this.vorpal.log("Cloning templates from " + this.TEMPLATES_URL);
-            if ((<any>shell.exec(`git clone --depth 1 ${this.TEMPLATES_URL} templates`, { silent: true })).code > 0) {
+
+            const templatesUrl = args.options.templateSource || this.TEMPLATES_URL;
+            this.vorpal.log("Cloning templates from " + templatesUrl);
+            if ((<any>shell.exec(`git clone --depth 1 ${templatesUrl} templates`, { silent: true })).code > 0) {
                 shell.cd("templates");
                 shell.exec("git pull origin", { silent: true });
                 shell.cd('..');

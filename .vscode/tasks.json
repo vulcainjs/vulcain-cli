@@ -10,7 +10,7 @@
         "taskName": "default",
         "isBuildCommand": true,
         "problemMatcher":"$tsc",
-        "isWatching": false 
+        "isBackground": false 
         }
     ]
 }

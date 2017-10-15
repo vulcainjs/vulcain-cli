@@ -123,7 +123,7 @@ export class Engine {
             var fileName = path.basename(file);
 
             fileName = fileName.replace(pattern, target);
-            fs.rename(file, path.join(this.context.args.folder, fileName));
+            fs.rename(file, path.join(this.context.args.folder, fileName), ()=> {});
         }
     }
 

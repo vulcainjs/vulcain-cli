@@ -17,12 +17,11 @@ export class ProjectGenerateCommand extends AbstractCommand {
         console.log("  - " + desc);
 
         let self = this;
-        vorpal.command('generate', desc)
+        vorpal.command('generate <address>', desc)
             .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
             .option("--template <template>", "Template to use (default=microServiceProxy)")
             .option("--template-source <templateSource>", "Force a new git repository containing templates")            
             .option("--folder <folder>", "Generation folder (default=current folder")
-            .option("--address <address>", "Service discovery address (or url for http command)")
             .action(function (args, cb) {
                 self.exec(this, args, () => {
                     if (self.executeCommandOnline) { process.exit(0); } else { cb(); }
@@ -32,7 +31,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
 
     protected checkArguments(args, errors) {
         if (!args.options.address) {
-            errors.push("You must provide an address with --address.");
+            errors.push("You must provide a service address.");
         }
         else {
             if (!args.options.address.startsWith("http")) {
@@ -79,7 +78,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
                 shell.cd('..');
             }
 
-            let templateFolder = shell.pwd().toString() + "/templates/" + args.options.template;
+            let templateFolder = "~/.vulcain/templates/" + args.options.template;
 
             if (shell.test("-d", templateFolder)) {
                 const folder = args.options.folder ? Path.normalize(Path.join(currentFolder, args.options.folder)) : currentFolder;

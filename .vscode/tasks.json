@@ -9,7 +9,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "taskName": "compile-ts",
+            "taskName": "default",
             "isBackground": false,
             "problemMatcher": "$tsc"
         }

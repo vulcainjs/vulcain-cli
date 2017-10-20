@@ -30,18 +30,18 @@ export class ProjectGenerateCommand extends AbstractCommand {
     }
 
     protected checkArguments(args, errors) {
-        if (!args.options.address) {
+        if (!args.address) {
             errors.push("You must provide a service address.");
         }
         else {
-            if (!args.options.address.startsWith("http")) {
-                args.options.address = "http://" + args.options.address;
+            if (!args.address.startsWith("http")) {
+                args.address = "http://" + args.address;
             }
-            let url = Url.parse(args.options.address);
+            let url = Url.parse(args.address);
             if (url.pathname === "/") {
                 url.pathname = "/api/_servicedescription";
             }
-            args.options.address = Url.format(url);
+            args.address = Url.format(url);
         }
         if (!args.options.template) {
             args.options.template = "microServiceProxy";
@@ -52,8 +52,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
 
         this.vorpal.log();
 
-        this.vorpal.log("Generating code from template " + args.options.template);
-
+        
         let currentFolder;
         try {
             let errors = [];
@@ -66,9 +65,22 @@ export class ProjectGenerateCommand extends AbstractCommand {
                 return;
             }
 
+            this.vorpal.log("Generating code from template " + args.options.template);
+
             // Cloning template
             currentFolder = shell.pwd().toString();
-            shell.cd("~/.vulcain");
+            var silentState = shell.config.silent;
+            shell.config.silent = true;
+            try {
+                shell.cd("~/.vulcain");
+                if (shell.error()) {
+                    shell.mkdir("~/.vulcain");
+                    shell.cd("~/.vulcain");
+                }
+            }
+            finally {
+                shell.config.silent = silentState;
+            }
 
             const templatesUrl = args.options.templateSource || this.TEMPLATES_URL;
             this.vorpal.log("Cloning templates from " + templatesUrl);
@@ -79,10 +91,10 @@ export class ProjectGenerateCommand extends AbstractCommand {
             }
 
             let templateFolder = "~/.vulcain/templates/" + args.options.template;
-
             if (shell.test("-d", templateFolder)) {
+                shell.cd(templateFolder);
                 const folder = args.options.folder ? Path.normalize(Path.join(currentFolder, args.options.folder)) : currentFolder;
-                await this.generateCode(folder, templateFolder, args.options.address);
+                await this.generateCode(folder, args.address);
             } else {
                 this.vorpal.log("Unknow template " + args.options.template);
             }
@@ -96,20 +108,20 @@ export class ProjectGenerateCommand extends AbstractCommand {
         done();
     }
 
-    private generateCode(currentFolder, templateFolder: string, uri: string) {
+    private generateCode(currentFolder, uri: string) {
         return new Promise((resolve, reject) => {
             let tmp;
             try {
                 // Copy context file in current project context
                 tmp = Path.join(Path.dirname(module.filename), "tmp_context.js");
-                shell.cp(templateFolder + "/context.js", tmp);
+                shell.cp("-n", "context.js", tmp);
                 let Context = require(tmp).Context;
                 let ctx = new Context();
                 ctx.discoveryAddress = uri;
 
                 ctx.init({ discoveryAddress: uri })
                     .then((outputFile: string) => {
-                        let template = fs.readFileSync(templateFolder + "/template.ejs", "utf8");
+                        let template = fs.readFileSync( "template.ejs", "utf8");
                         let txt = ejs.render(template, ctx);
 
                         outputFile = Path.join(currentFolder, outputFile);

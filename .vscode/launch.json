@@ -8,7 +8,7 @@
 			"program": "${workspaceRoot}/src/index.ts",
 			"stopOnEntry": false,
 			"preLaunchTask": "default",
-			"args": [],
+			"args": ["generate", "localhost:8080"],
 			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [],

@@ -8,7 +8,7 @@
 			"program": "${workspaceRoot}/src/index.ts",
 			"stopOnEntry": false,
 			"preLaunchTask": "default",
-			"args": ["generate", "localhost:8080"],
+			"args": ["generate", "docker", "--args", "name=toto,version=1.0"],
 			"cwd": "${workspaceRoot}",
 			"runtimeExecutable": null,
 			"runtimeArgs": [],
@@ -21,7 +21,7 @@
 			"outFiles": [
 				"${workspaceRoot}/dist/**/*.js"
 			],
-			"smartStep": true
+			"smartStep": false
 		},
 		{
 			"name": "Attach",

@@ -17,9 +17,8 @@ export class ProjectGenerateCommand extends AbstractCommand {
         console.log("  - " + desc);
 
         let self = this;
-        vorpal.command('generate <address>', desc)
-            .autocomplete({ data: this.serviceAutoCompletion.bind(this) })
-            .option("--template <template>", "Template to use (default=microServiceProxy)")
+        vorpal.command('generate <template>', desc)
+            .option("--args [args]", "Arguments as key=value[,key=value]")
             .option("--template-source <templateSource>", "Force a new git repository containing templates")            
             .option("--folder <folder>", "Generation folder (default=current folder")
             .action(function (args, cb) {
@@ -30,21 +29,24 @@ export class ProjectGenerateCommand extends AbstractCommand {
     }
 
     protected checkArguments(args, errors) {
-        if (!args.address) {
-            errors.push("You must provide a service address.");
+        if (args.options.args) {
+            var segments: string[] = args.options.args.replace(/'/g, "").split(',');
+            segments.forEach(s => {
+                var p = s.split('=');
+                args.options[p[0].trim()] = p[1].trim();
+            });
+            args.options.args = undefined;
         }
-        else {
-            if (!args.address.startsWith("http")) {
-                args.address = "http://" + args.address;
+        
+        if (args.options.address) {
+            if (!args.options.address.startsWith("http")) {
+                args.options.address = "http://" + args.options.address;
             }
-            let url = Url.parse(args.address);
+            let url = Url.parse(args.options.address);
             if (url.pathname === "/") {
                 url.pathname = "/api/_servicedescription";
             }
-            args.address = Url.format(url);
-        }
-        if (!args.options.template) {
-            args.options.template = "microServiceProxy";
+            args.options.address = Url.format(url);
         }
     }
 
@@ -52,7 +54,6 @@ export class ProjectGenerateCommand extends AbstractCommand {
 
         this.vorpal.log();
 
-        
         let currentFolder;
         try {
             let errors = [];
@@ -90,13 +91,13 @@ export class ProjectGenerateCommand extends AbstractCommand {
                 shell.cd('..');
             }
 
-            let templateFolder = "~/.vulcain/templates/" + args.options.template;
+            let templateFolder = "~/.vulcain/templates/" + args.template;
             if (shell.test("-d", templateFolder)) {
                 shell.cd(templateFolder);
                 const folder = args.options.folder ? Path.normalize(Path.join(currentFolder, args.options.folder)) : currentFolder;
-                await this.generateCode(folder, args.address);
+                await this.generateCode(folder, args.options);
             } else {
-                this.vorpal.log("Unknow template " + args.options.template);
+                this.vorpal.log("Unknow template " + args.template);
             }
         }
         catch (e) {
@@ -108,7 +109,7 @@ export class ProjectGenerateCommand extends AbstractCommand {
         done();
     }
 
-    private generateCode(currentFolder, uri: string) {
+    private generateCode(currentFolder, options: string) {
         return new Promise((resolve, reject) => {
             let tmp;
             try {
@@ -117,9 +118,8 @@ export class ProjectGenerateCommand extends AbstractCommand {
                 shell.cp("-n", "context.js", tmp);
                 let Context = require(tmp).Context;
                 let ctx = new Context();
-                ctx.discoveryAddress = uri;
 
-                ctx.init({ discoveryAddress: uri })
+                ctx.init(options)
                     .then((outputFile: string) => {
                         let template = fs.readFileSync( "template.ejs", "utf8");
                         let txt = ejs.render(template, ctx);
